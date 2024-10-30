@@ -11,25 +11,53 @@
 </h:head>
 <h:body>
 
-	<p:panel header="Kalkulator kredytowy + primefaces" toggleable ="true" closable="true" toggleSpeed="5000" style="margin: 1em auto;">
+	<p:panel header="Kalkulator kredytowy + primefaces" toggleable="true" closable="true" toggleSpeed="5000" style="margin: 1em auto; width: 50%;">
+		<h:form id="bla">
+			<table style="width:100%; border-spacing:10px;">
+				<tr>
+					<td style="width: 30%; text-align: right;">
+						<p:outputLabel for="x" value="Kwota (PLN): " style="font-weight:bold;" />
+					</td>
+					<td style="width: 70%;">
+						<p:inputText id="x" value="#{calcBB.x}" required="true" requiredMessage="no amount stated" style="width:95%;">
+							<f:validateLongRange minimum="1000" />
+						</p:inputText>
+						<p:message for="x" display="text" style="color:red;" />
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">
+						<p:outputLabel for="y" value="Raty (Msc): " style="font-weight:bold;" />
+					</td>
+					<td>
+						<p:inputText id="y" value="#{calcBB.y}" required="true" requiredMessage="no installments given" style="width:95%;">
+							<f:validateLongRange minimum="6" />
+						</p:inputText>
+						<p:message for="y" display="text" style="color:red;" />
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: right;">
+						<p:outputLabel for="z" value="Oprocentowanie (%): " style="font-weight:bold;" />
+					</td>
+					<td>
+						<p:inputText id="z" value="#{calcBB.z}" required="true" requiredMessage="no stated interest rate" style="width:95%;">
+							<f:validateDoubleRange minimum="1.0" maximum="100.0" />
+						</p:inputText>
+						<p:message for="z" display="text" style="color:red;" />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<p:commandButton value="Przelicz" action="#{calcBB.calc()}" update="@form" style="width:100%;" />
+					</td>
+				</tr>
+			</table>
 
-	<h:form id="bla">
-	
-	<h:panelGrid id="grid" colums="3" cellpadding ="5">
-	
-  		Kwota(PLN): <p:inputText value="#{calcBB.x}" />
-		<br />
-  		Raty(msc): <p:inputText value="#{calcBB.y}" />
-		<br />
-		Oprocentowanie(%): <p:inputText value="#{calcBB.z}"/>
-		<br />
-		
-		<p:messages id="msg" />
-
-		<p:commandButton value="Przelicz" action="#{calcBB.calc()}" update ="@form"/>
-		<br />
-		</h:panelGrid>
-	</h:form>
+			<!-- Wyświetlanie komunikatów o błędach i wyników -->
+			<p:growl id="msg" showDetail="true" sticky="true" />
+		</h:form>
 	</p:panel>
 
 </h:body>
